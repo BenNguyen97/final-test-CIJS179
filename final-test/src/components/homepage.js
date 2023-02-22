@@ -3,14 +3,18 @@ import React, { useState, useEffect } from "react";
 
 function Homepage() {
   const [tasks, setTasks] = useState(() => {
-    const temp =  localStorage.getItem('todos');
-    return JSON.parse(temp) || []
+    const temp = localStorage.getItem("todos");
+    return JSON.parse(temp) || [];
   });
 
   const handleAddTask = (e) => {
     e.preventDefault();
     const input = e.target.elements.task;
-    const newTask = { id: Date().valueOf(), name: input.value, completed: false };
+    const newTask = {
+      id: Date().valueOf(),
+      name: input.value,
+      completed: false,
+    };
     setTasks([...tasks, newTask]);
     input.value = "";
   };
@@ -27,38 +31,38 @@ function Homepage() {
     );
   };
 
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(tasks));
+    localStorage.setItem("todos", JSON.stringify(tasks));
   }, [tasks]);
 
   let filteredTasks;
-  if (filter === 'all') {
+  if (filter === "all") {
     filteredTasks = tasks;
-  } else if (filter === 'active') {
+  } else if (filter === "active") {
     filteredTasks = tasks.filter((task) => !task.completed);
-  } else if (filter === 'completed') {
+  } else if (filter === "completed") {
     filteredTasks = tasks.filter((task) => task.completed);
   }
 
-  const clearAll = () =>  {
+  const clearAll = () => {
     setTasks([]);
-  }
+  };
 
   return (
     <div className="todo-list">
       <h1>Todo List</h1>
-            <form onSubmit={handleAddTask}>
-            <input type="text" name="task" placeholder="Add a new task..." />
-            <button type="submit">Add</button>
-            </form>
-        <hr/>
-        <div className="filter">
-            <button onClick={() => setFilter('all')}>All</button>
-            <button onClick={() => setFilter('active')}>Active</button>
-            <button onClick={() => setFilter('completed')}>completed</button>
-        </div>
-        <hr/>
+      <form onSubmit={handleAddTask}>
+        <input type="text" name="task" placeholder="Add a new task..." />
+        <button type="submit">Add</button>
+      </form>
+      <hr />
+      <div className="filter">
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("active")}>Active</button>
+        <button onClick={() => setFilter("completed")}>completed</button>
+      </div>
+      <hr />
       <ul>
         {filteredTasks.map((task) => (
           <li key={task.id}>
@@ -67,20 +71,20 @@ function Homepage() {
               checked={task.completed}
               onChange={() => handleToggleTask(task.id)}
             />
-                <label
-                  style={{
-                    textDecoration: task.completed ? "line-through" : "none",
-                  }}
-                >
-                  {task.name}
-                </label>
-                <button onClick={() => handleDeleteTask(task.id)}>
-                  Delete
-                </button>
+            <label
+              style={{
+                textDecoration: task.completed ? "line-through" : "none",
+              }}
+            >
+              {task.name}
+            </label>
+            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
           </li>
-            ))}
+        ))}
       </ul>
-      <button className="clear" onClick={(clearAll)}>CLEAR ALL</button>
+      <button className="clear" onClick={clearAll}>
+        CLEAR ALL
+      </button>
     </div>
   );
 }
