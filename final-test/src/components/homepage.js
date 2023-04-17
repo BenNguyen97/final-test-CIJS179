@@ -60,7 +60,7 @@ function Homepage() {
       <div className="filter">
         <button onClick={() => setFilter("all")}>All</button>
         <button onClick={() => setFilter("active")}>Active</button>
-        <button onClick={() => setFilter("completed")}>completed</button>
+        <button onClick={() => setFilter("completed")}>Completed</button>
       </div>
       <hr />
       <ul>
